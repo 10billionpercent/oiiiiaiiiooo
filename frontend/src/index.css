@@ -1,111 +1,476 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Geist+Pixel&display=swap");
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --color-primary: #00baff;
+  --color-secondary: #00ff5e;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --color-page: #001a24;
+  --color-chart-grid: #162d36;
+  --color-card: #021208;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-chart-grid-border: #7cdbff;
+  --color-card-border: #71efb2;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --color-text: #e2e8e5;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+* {
   box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
 }
 
 body {
   margin: 0;
+  background-color: var(--color-page);
+  color: var(--color-text);
+  font-family: "Fira Mono", monospace;
 }
 
 h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Geist Pixel", sans-serif;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+.page-content {
+  padding: 0 2rem 2rem;
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+
+.navbar {
+  height: 80px;
+  padding: 0 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: var(--color-page);
+  border-bottom: 1px solid var(--color-chart-grid);
 }
-p {
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.navbar-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.navbar-brand-text h1 {
   margin: 0;
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
+.navbar-brand-text p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+
+.navbar-links {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  position: relative;
+
+  color: var(--color-text);
+  text-decoration: none;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  transition: color 0.2s ease;
+}
+
+.navbar-link:hover {
+  color: var(--color-primary);
+}
+
+.navbar-link.active {
+  color: var(--color-primary);
+}
+
+.navbar-link.active::after {
+  content: "";
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 2px;
+  background: var(--color-primary);
+}
+
+.forecast-chart-container {
+  background-color: var(--color-chart-grid);
+  border: 1px solid var(--color-chart-grid-border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.date-picker-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.date-picker-input-wrap {
+  display: flex;
+  align-items: center;
+
+  background: var(--color-chart-grid);
+  border: 1px solid var(--color-chart-grid-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.date-picker-input {
+  width: 140px;
+  padding: 0.65rem 0.75rem;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-family: "Fira Mono", monospace;
+  font-size: 0.8rem;
+
+  cursor: pointer;
+}
+
+.date-picker-input::placeholder {
+  color: var(--color-text);
+  opacity: 0.5;
+}
+
+.date-picker-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.65rem 0.7rem;
+
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+
+  cursor: pointer;
+}
+
+.date-picker-icon-btn:hover {
+  background: rgb(0 186 255 / 10%);
+}
+
+.date-picker-popup {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+
+  width: 280px;
+  padding: 1rem;
+
+  background: var(--color-page);
+  border: 1px solid var(--color-chart-grid-border);
+  border-radius: 8px;
+}
+
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 1rem;
+
+  color: var(--color-primary);
+  font-family: "Geist Pixel", sans-serif;
+}
+
+.dp-header button {
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+
+  font-family: "Fira Mono", monospace;
+  font-size: 1rem;
+
+  cursor: pointer;
+}
+
+.dp-header button:hover {
+  color: var(--color-secondary);
+}
+
+.dp-weekdays,
+.dp-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.dp-weekdays {
+  margin-bottom: 0.5rem;
+}
+
+.dp-weekdays span {
+  text-align: center;
+
+  color: var(--color-secondary);
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+.dp-empty-day {
+  aspect-ratio: 1;
+}
+
+.dp-day {
+  aspect-ratio: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
   border-radius: 4px;
-  color: var(--text-h);
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-family: "Fira Mono", monospace;
+  font-size: 0.7rem;
+
+  cursor: pointer;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.dp-day:hover {
+  background: rgb(0 186 255 / 12%);
+  color: var(--color-secondary);
+}
+
+.dp-day.selected {
+  background: var(--color-secondary);
+  color: var(--color-page);
+  font-weight: 700;
+}
+
+.time-picker-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.time-picker-input-wrap {
+  display: flex;
+  align-items: center;
+
+  background: var(--color-chart-grid);
+  border: 1px solid var(--color-chart-grid-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.time-picker-input {
+  width: 110px;
+  padding: 0.65rem 0.75rem;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-family: "Fira Mono", monospace;
+  font-size: 0.8rem;
+
+  cursor: text;
+}
+
+.time-picker-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0.65rem 0.7rem;
+
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+
+  font-size: 1.25rem;
+
+  cursor: pointer;
+}
+
+.time-picker-icon-btn:hover {
+  background: rgb(0 186 255 / 10%);
+}
+
+.time-picker-popup {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+
+  width: 240px;
+  padding: 1rem;
+
+  background: var(--color-page);
+  border: 1px solid var(--color-chart-grid-border);
+  border-radius: 8px;
+}
+
+.time-picker-columns {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.time-picker-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.time-picker-column-title {
+  margin-bottom: 0.5rem;
+
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.time-picker-scroll {
+  height: 220px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-chart-grid-border) transparent;
+}
+
+.time-picker-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.time-picker-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.time-picker-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-chart-grid-border);
+  border-radius: 4px;
+}
+
+.time-picker-option {
+  flex-shrink: 0;
+
+  width: 100%;
+  height: 32px;
+
+  border: none;
+  border-radius: 4px;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-family: "Fira Mono", monospace;
+  font-size: 0.75rem;
+
+  cursor: pointer;
+}
+
+.time-picker-option:hover {
+  background: rgb(0 186 255 / 12%);
+  color: var(--color-secondary);
+}
+
+.time-picker-option.selected {
+  background: var(--color-secondary);
+  color: var(--color-page);
+  font-weight: 700;
+}
+
+.time-picker-separator {
+  display: flex;
+  align-items: center;
+
+  padding-top: 1.5rem;
+
+  color: var(--color-primary);
+  font-family: "Geist Pixel", sans-serif;
+  font-size: 1.2rem;
+}
+
+.demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1.25rem 0;
+}
+
+.demo-controls-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-controls-title {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.demo-controls-description {
+  color: var(--color-text);
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin: 0.25;
+}
+
+.demo-controls-pickers {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-right: 5.4rem;
 }

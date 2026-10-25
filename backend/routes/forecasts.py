@@ -43,6 +43,19 @@ def get_forecasts(request: ForecastRequest):
         (f"{request.deliveryDate}T%",),
     ).fetchall()
 
+    earliest_publication = conn.execute(
+          """
+    SELECT MIN(publish_time)
+    FROM wind_forecasts
+    WHERE start_time LIKE ?
+      AND publish_time LIKE ?
+    """,
+    (
+        f"{request.deliveryDate}T%",
+        f"{decision_date.isoformat()}T%",
+    ),
+    ).fetchone()[0]
+
     conn.close()
 
     forecasts = []
@@ -66,9 +79,50 @@ def get_forecasts(request: ForecastRequest):
                 }
             )
 
+    available_count = sum(
+        forecast["generation"] is not None
+        for forecast in forecasts
+    )
+
+    missing_count = len(forecasts) - available_count
+
+    empty_state = None
+
+    if not delivery_intervals:
+        empty_state = {
+            "type": "NO_RECORDS",
+            "message": (
+                "No forecast data was found for this "
+                "delivery day and decision date."
+            ),
+        }
+
+    elif available_count == 0 and earliest_publication:
+        earliest_publication_dt = datetime.fromisoformat(
+            earliest_publication.replace("Z", "+00:00")
+        )
+
+        if earliest_publication_dt > decision_dt:
+            empty_state = {
+                "type": "NOT_AVAILABLE_YET",
+                "firstPublishedAt": earliest_publication,
+            }
+
+    elif missing_count > 0:
+        empty_state = {
+            "type": "PARTIAL",
+            "message": (
+                f"{missing_count} of {len(forecasts)} intervals "
+                "have no forecast available at the selected "
+                "decision time."
+            ),
+            "missingIntervals": missing_count,
+        }
+
     return {
         "deliveryDate": request.deliveryDate,
         "decisionDate": decision_date.isoformat(),
         "decisionTime": request.decisionTime,
         "forecasts": forecasts,
+        "emptyState": empty_state,
     }

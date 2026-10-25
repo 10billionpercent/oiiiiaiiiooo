@@ -9,11 +9,23 @@ export interface Forecast {
   generation: number | null;
 }
 
+export interface ForecastEmptyState {
+  type: "NOT_AVAILABLE_YET" | "PARTIAL" | "NO_RECORDS";
+  message: string;
+  missingIntervals?: number;
+}
+
 export interface ForecastResponse {
   deliveryDate: string;
   decisionDate: string;
   decisionTime: string;
   forecasts: Forecast[];
+  emptyState: {
+    type: "NO_RECORDS" | "NOT_AVAILABLE_YET" | "PARTIAL";
+    message?: string;
+    firstPublishedAt?: string;
+    missingIntervals?: number;
+  } | null;
 }
 
 export interface AccuracyRequest {
