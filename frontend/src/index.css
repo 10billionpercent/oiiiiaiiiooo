@@ -443,7 +443,7 @@ h6 {
 
 .demo-controls {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   padding: 1.25rem 0;
@@ -468,6 +468,34 @@ h6 {
   margin: 0.25;
 }
 
+.demo-control-label {
+  color: #7cdbff;
+  font-family: "Fira Mono", monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.demo-controls-accuracy-pickers {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-right: 5.4rem;
+}
+
+.demo-controls-date-pickers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.demo-control-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
 .demo-controls-pickers {
   display: flex;
   align-items: center;
@@ -480,7 +508,7 @@ h6 {
   padding: 1rem;
   background-color: var(--color-page);
   border: 1px solid #7cdbff;
-  border-radius: 4px;
+  border-radius: 12px;
 }
 
 .forecast-tooltip-hero {
@@ -505,6 +533,14 @@ h6 {
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.2;
+}
+
+.forecast-tooltip-delivery {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-size: 0.8rem;
 }
 
 .forecast-tooltip-details {

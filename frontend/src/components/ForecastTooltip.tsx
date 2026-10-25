@@ -21,8 +21,8 @@ export default function ForecastTooltip({
 
   const forecast = payload[0].payload;
 
-  const formatDate = (date: string) =>
-    new Date(`${date}T00:00:00Z`).toLocaleDateString("en-GB", {
+  const formatDate = (dateTime: string) =>
+    new Date(dateTime).toLocaleDateString("en-GB", {
       timeZone: "UTC",
       day: "2-digit",
       month: "short",
@@ -40,8 +40,10 @@ export default function ForecastTooltip({
   return (
     <div className="forecast-tooltip">
       <div className="forecast-tooltip-hero">
-        <span className="forecast-tooltip-label">
-          Forecast
+        <span className="forecast-tooltip-label">Forecast</span>
+        <span className="forecast-tooltip-delivery">
+          for {formatDate(`${deliveryDate}T00:00:00Z`)}{" "}
+          {formatTime(forecast.startTime)} UTC
         </span>
 
         <span className="forecast-tooltip-value">
@@ -53,20 +55,12 @@ export default function ForecastTooltip({
 
       <div className="forecast-tooltip-details">
         <div className="forecast-tooltip-row">
-          <span>Delivery date</span>
-          <span>{formatDate(deliveryDate)}</span>
-        </div>
-
-        <div className="forecast-tooltip-row">
-          <span>Delivery time</span>
-          <span>{formatTime(forecast.startTime)} UTC</span>
-        </div>
-
-        <div className="forecast-tooltip-row">
           <span>Published at</span>
           <span>
             {forecast.publishTime
-              ? `${formatTime(forecast.publishTime)} UTC`
+              ? `${formatDate(forecast.publishTime)} ${formatTime(
+                  forecast.publishTime,
+                )} UTC`
               : "Not available"}
           </span>
         </div>

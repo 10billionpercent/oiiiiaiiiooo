@@ -27,6 +27,7 @@ export default function ForecastChart({
       ...forecast,
 
       time: new Date(forecast.startTime).toLocaleTimeString([], {
+        timeZone: "UTC",
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
@@ -81,13 +82,7 @@ export default function ForecastChart({
             }}
           />
 
-          <Tooltip
-            content={
-              <ForecastTooltip
-                deliveryDate={deliveryDate}
-              />
-            }
-          />
+          <Tooltip content={<ForecastTooltip deliveryDate={deliveryDate} />} />
 
           <Line
             type="monotone"
