@@ -10,11 +10,8 @@ import { useAccuracy } from "../queries/accuracy";
 import type { PageLayoutContext } from "../layouts/PageLayout";
 
 export default function AccuracyAnalysisPage() {
-  const {
-    startDate,
-    endDate,
-    decisionTime,
-  } = useOutletContext<PageLayoutContext>();
+  const { startDate, endDate, decisionTime } =
+    useOutletContext<PageLayoutContext>();
 
   const request = {
     startDate,
@@ -34,14 +31,11 @@ export default function AccuracyAnalysisPage() {
     isError: isMetricsError,
   } = useAccuracy(request);
 
-  const hasAccuracyData =
-    accuracyData?.data.length > 0;
+  const hasAccuracyData = (accuracyData?.data?.length ?? 0) > 0;
 
-  const isLoading =
-    isDataLoading || isMetricsLoading;
+  const isLoading = isDataLoading || isMetricsLoading;
 
-  const isError =
-    isDataError || isMetricsError;
+  const isError = isDataError || isMetricsError;
 
   if (isLoading && !accuracyData) {
     return <p>Loading accuracy data...</p>;
@@ -119,9 +113,7 @@ export default function AccuracyAnalysisPage() {
             ease: "easeOut",
           }}
         >
-          <p>
-            No accuracy data available for the selected range.
-          </p>
+          <p>No accuracy data available for the selected range.</p>
         </motion.div>
       )}
     </AnimatePresence>
