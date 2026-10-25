@@ -270,3 +270,37 @@ def test_accuracy_returns_expected_interval_count():
     metrics = response.json()["metrics"]
 
     assert metrics["validIntervals"] == 168
+
+def test_forecast_empty_state_when_not_available():
+    response = client.post(
+        "/api/forecasts",
+        json={
+            "deliveryDate": "2026-01-04",
+            "decisionTime": "01:00",
+        },
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["emptyState"] == {
+        "type": "NOT_AVAILABLE_YET",
+        "firstPublishedAt": "2026-01-03T02:30:00Z",
+    }
+
+
+def test_forecast_empty_state_is_none_when_forecast_available():
+    response = client.post(
+        "/api/forecasts",
+        json={
+            "deliveryDate": "2026-01-04",
+            "decisionTime": "03:00",
+        },
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["emptyState"] is None
