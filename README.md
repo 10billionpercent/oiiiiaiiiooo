@@ -350,6 +350,8 @@ docker build -t yuragi-backend .
 docker run -p 8000:8000 yuragi-backend
 ```
 
+Open ```http://localhost:8000```
+
 ---
 
 ### Frontend
@@ -392,6 +394,8 @@ docker build -t yuragi-frontend .
 
 docker run -p 5173:80 yuragi-frontend
 ```
+
+Open ```http://localhost:5173```
 
 ---
 
