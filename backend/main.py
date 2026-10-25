@@ -12,7 +12,7 @@ app = FastAPI(title="Yuragi Backend")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "https://frontend-nine-ecru-56.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
