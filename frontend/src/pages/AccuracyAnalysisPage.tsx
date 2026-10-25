@@ -10,7 +10,7 @@ import { useAccuracy } from "../queries/accuracy";
 import type { PageLayoutContext } from "../layouts/PageLayout";
 
 export default function AccuracyAnalysisPage() {
-  const { startDate, endDate, decisionTime } =
+  const { startDate, endDate, decisionTime, isInvalidAccuracyRange } =
     useOutletContext<PageLayoutContext>();
 
   const request = {
@@ -33,9 +33,29 @@ export default function AccuracyAnalysisPage() {
 
   const hasAccuracyData = (accuracyData?.data?.length ?? 0) > 0;
 
+  const emptyState = accuracyData?.emptyState;
+
+  const firstPublishedTime = emptyState?.firstPublishedAt
+    ? new Date(emptyState.firstPublishedAt).toLocaleTimeString([], {
+        timeZone: "UTC",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
+    : null;
+
   const isLoading = isDataLoading || isMetricsLoading;
 
   const isError = isDataError || isMetricsError;
+
+  if (isInvalidAccuracyRange) {
+    return (
+      <p className="accuracy-validation-message">
+        Please select a valid date range. Start date must be earlier than or
+        equal to the end date.
+      </p>
+    );
+  }
 
   if (isLoading && !accuracyData) {
     return <p>Loading accuracy data...</p>;
@@ -73,7 +93,7 @@ export default function AccuracyAnalysisPage() {
                     : "N/A"
                 }
                 description="Average absolute difference between forecast and actual generation."
-                formula="MAE = (1/n) Σ |Forecast − Actual|"
+                formula="\mathrm{MAE} = \frac{1}{n}\sum_{i=1}^{n}\left|F_i - A_i\right|"
               />
 
               <MetricCard
@@ -84,7 +104,7 @@ export default function AccuracyAnalysisPage() {
                     : "N/A"
                 }
                 description="Penalises larger forecast errors more heavily."
-                formula="RMSE = √[(1/n) Σ (Forecast − Actual)²]"
+                formula="\mathrm{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(F_i - A_i)^2}"
               />
 
               <MetricCard
@@ -95,16 +115,16 @@ export default function AccuracyAnalysisPage() {
                     : "N/A"
                 }
                 description="Shows whether forecasts systematically over- or under-predict."
-                formula="MBE = (1/n) Σ (Forecast − Actual)"
+                formula="\mathrm{MBE} = \frac{1}{n}\sum_{i=1}^{n}(F_i - A_i)"
               />
             </div>
           )}
         </motion.div>
       )}
 
-      {!hasAccuracyData && (
+      {!hasAccuracyData && emptyState && (
         <motion.div
-          key="accuracy-empty"
+          key={`accuracy-empty-${emptyState.type}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -113,7 +133,16 @@ export default function AccuracyAnalysisPage() {
             ease: "easeOut",
           }}
         >
-          <p>No accuracy data available for the selected range.</p>
+          {emptyState.type === "NOT_AVAILABLE_YET" && firstPublishedTime && (
+            <p>
+              No forecast was available by {decisionTime} UTC. The first
+              recorded forecast was published at {firstPublishedTime} UTC.
+            </p>
+          )}
+
+          {emptyState.type === "NO_RECORDS" && <p>{emptyState.message}</p>}
+
+          {emptyState.type === "NO_MATCHED_DATA" && <p>{emptyState.message}</p>}
         </motion.div>
       )}
     </AnimatePresence>

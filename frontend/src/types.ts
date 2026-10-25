@@ -58,10 +58,19 @@ export interface AccuracyResponse {
   metrics: AccuracyMetrics;
 }
 
+export interface AccuracyEmptyState {
+  type: "NOT_AVAILABLE_YET" | "PARTIAL" | "NO_RECORDS" | "NO_MATCHED_DATA";
+  message: string;
+  firstPublishedAt?: string;
+  availableIntervals?: number;
+  missingIntervals?: number;
+}
+
 export interface RealDataResponse {
   startDate: string;
   endDate: string;
   decisionTime: string;
   unit: string;
   data: AccuracyData[];
+  emptyState: AccuracyEmptyState | null;
 }

@@ -1,7 +1,4 @@
-import {
-  keepPreviousData,
-  useQuery,
-} from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 import { getAccuracyData } from "../services/accuracyData";
 import type { AccuracyRequest } from "../types";
@@ -18,18 +15,14 @@ export const accuracyDataKeys = {
     ] as const,
 };
 
-export const useAccuracyData = (
-  request: AccuracyRequest,
-) => {
+export const useAccuracyData = (request: AccuracyRequest) => {
   return useQuery({
     queryKey: accuracyDataKeys.detail(request),
     queryFn: () => getAccuracyData(request),
 
-    enabled: Boolean(
-      request.startDate &&
-      request.endDate &&
-      request.decisionTime,
-    ),
+    enabled:
+      Boolean(request.startDate && request.endDate && request.decisionTime) &&
+      request.startDate <= request.endDate,
 
     placeholderData: keepPreviousData,
   });

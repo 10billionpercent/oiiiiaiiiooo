@@ -1,3 +1,6 @@
+import { BlockMath } from "react-katex";
+import "katex/dist/katex.min.css";
+
 import { InfoIcon } from "@phosphor-icons/react";
 
 interface MetricCardProps {
@@ -37,7 +40,7 @@ export default function MetricCard({
                 Formula
               </span>
 
-              <code>{formula}</code>
+              <BlockMath math={formula} />
             </div>
           </div>
         </div>

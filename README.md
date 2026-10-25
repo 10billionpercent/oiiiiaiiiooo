@@ -593,3 +593,11 @@ Yuragi is built around one core decision-support principle:
 > **Show the buyer the forecast they could actually have seen, not a forecast published later with the benefit of hindsight.**
 
 By combining forecast-vintage selection, actual-vs-forecast comparison, and interpretable error metrics, Yuragi provides a compact view of how useful the wind forecast was at the point of purchase.
+
+## AI Assistance
+
+AI tools were used during the development of Yuragi as a development aid. This included assistance with debugging, implementation suggestions, code review, documentation, and explaining technical concepts.
+
+The core application design, business logic, data interpretation, forecast-vintage selection logic, API structure, UI decisions, and final implementation choices were reviewed and adapted as part of the development process.
+
+AI assistance was used to accelerate development and problem-solving, rather than as a replacement for understanding or validating the implementation.

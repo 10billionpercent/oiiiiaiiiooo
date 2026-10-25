@@ -11,6 +11,7 @@ export interface PageLayoutContext {
   startDate: string;
   endDate: string;
   decisionTime: string;
+  isInvalidAccuracyRange: boolean;
 }
 
 export default function PageLayout() {
@@ -22,6 +23,7 @@ export default function PageLayout() {
   const [startDate, setStartDate] = useState("20260104");
   const [endDate, setEndDate] = useState("20260107");
   const [decisionTime, setDecisionTime] = useState("03:00");
+  const isInvalidAccuracyRange = isAccuracyPage && startDate > endDate;
 
   return (
     <>
@@ -30,13 +32,15 @@ export default function PageLayout() {
       <main className="page-content">
         <section className="demo-controls">
           <div className="demo-controls-info">
-            <h2 className="demo-controls-title">
-              Demo Controls
-            </h2>
+            <h2 className="demo-controls-title">Demo Controls</h2>
 
             <AnimatePresence mode="wait">
               <motion.p
-                key={isAccuracyPage ? "accuracy-description" : "forecast-description"}
+                key={
+                  isAccuracyPage
+                    ? "accuracy-description"
+                    : "forecast-description"
+                }
                 className="demo-controls-description"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -61,25 +65,15 @@ export default function PageLayout() {
                 transition={{ duration: 0.2 }}
               >
                 <div className="demo-control-picker">
-                  <span className="demo-control-label">
-                    Start date
-                  </span>
+                  <span className="demo-control-label">Start date</span>
 
-                  <DatePicker
-                    value={startDate}
-                    onChange={setStartDate}
-                  />
+                  <DatePicker value={startDate} onChange={setStartDate} />
                 </div>
 
                 <div className="demo-control-picker">
-                  <span className="demo-control-label">
-                    End date
-                  </span>
+                  <span className="demo-control-label">End date</span>
 
-                  <DatePicker
-                    value={endDate}
-                    onChange={setEndDate}
-                  />
+                  <DatePicker value={endDate} onChange={setEndDate} />
                 </div>
 
                 <div className="demo-control-picker">
@@ -87,10 +81,7 @@ export default function PageLayout() {
                     Decision time (UTC)
                   </span>
 
-                  <TimePicker
-                    value={decisionTime}
-                    onChange={setDecisionTime}
-                  />
+                  <TimePicker value={decisionTime} onChange={setDecisionTime} />
                 </div>
               </motion.div>
             ) : (
@@ -103,14 +94,9 @@ export default function PageLayout() {
                 transition={{ duration: 0.2 }}
               >
                 <div className="demo-control-picker">
-                  <span className="demo-control-label">
-                    Delivery date
-                  </span>
+                  <span className="demo-control-label">Delivery date</span>
 
-                  <DatePicker
-                    value={deliveryDate}
-                    onChange={setDeliveryDate}
-                  />
+                  <DatePicker value={deliveryDate} onChange={setDeliveryDate} />
                 </div>
 
                 <div className="demo-control-picker">
@@ -118,10 +104,7 @@ export default function PageLayout() {
                     Decision time (UTC)
                   </span>
 
-                  <TimePicker
-                    value={decisionTime}
-                    onChange={setDecisionTime}
-                  />
+                  <TimePicker value={decisionTime} onChange={setDecisionTime} />
                 </div>
               </motion.div>
             )}
@@ -145,6 +128,7 @@ export default function PageLayout() {
                 startDate,
                 endDate,
                 decisionTime,
+                isInvalidAccuracyRange,
               }}
             />
           </motion.div>
