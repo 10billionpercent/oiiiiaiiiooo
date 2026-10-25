@@ -474,3 +474,58 @@ h6 {
   gap: 0.75rem;
   margin-right: 5.4rem;
 }
+
+.forecast-tooltip {
+  min-width: 250px;
+  padding: 1rem;
+  background-color: var(--color-page);
+  border: 1px solid #7cdbff;
+  border-radius: 4px;
+}
+
+.forecast-tooltip-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(124, 219, 255, 0.2);
+}
+
+.forecast-tooltip-label {
+  color: #7cdbff;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.forecast-tooltip-value {
+  color: #00baff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.forecast-tooltip-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.forecast-tooltip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-size: 0.75rem;
+}
+
+.forecast-tooltip-row span:first-child {
+  color: #7cdbff;
+}
+
+.forecast-tooltip-row span:last-child {
+  color: var(--color-text);
+  white-space: nowrap;
+}

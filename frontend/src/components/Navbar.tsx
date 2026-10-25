@@ -1,12 +1,11 @@
 import { NavLink } from "react-router-dom";
-import logo from "../assets/logo.png";
 
 export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
         <img
-          src={logo}
+          src="/logo.png"
           alt="Yuragi logo"
           className="navbar-logo"
         />

@@ -9,20 +9,29 @@ import {
 } from "recharts";
 
 import type { Forecast } from "../types";
+import ForecastTooltip from "./ForecastTooltip";
 
 interface ForecastChartProps {
   forecasts: Forecast[];
+  deliveryDate: string;
+  decisionTime: string;
 }
 
-export default function ForecastChart({ forecasts }: ForecastChartProps) {
+export default function ForecastChart({
+  forecasts,
+  deliveryDate,
+}: ForecastChartProps) {
   const chartData = forecasts
     .filter((forecast) => forecast.generation !== null)
     .map((forecast) => ({
+      ...forecast,
+
       time: new Date(forecast.startTime).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
       }),
+
       generation: forecast.generation,
     }));
 
@@ -54,6 +63,7 @@ export default function ForecastChart({ forecasts }: ForecastChartProps) {
               fontSize: 12,
             }}
           />
+
           <YAxis
             tick={{ fill: "#e2e8e5", fontSize: 12 }}
             tickMargin={12}
@@ -72,16 +82,11 @@ export default function ForecastChart({ forecasts }: ForecastChartProps) {
           />
 
           <Tooltip
-            contentStyle={{
-              backgroundColor: "#021208",
-              border: "1px solid #71efb2",
-              borderRadius: "4px",
-              color: "#e2e8e5",
-            }}
-            formatter={(value) => [
-              `${Number(value).toLocaleString()} MW`,
-              "Forecast",
-            ]}
+            content={
+              <ForecastTooltip
+                deliveryDate={deliveryDate}
+              />
+            }
           />
 
           <Line

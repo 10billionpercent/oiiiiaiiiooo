@@ -53,7 +53,11 @@ export default function ForecastExplorerPage() {
             ease: "easeOut",
           }}
         >
-          <ForecastChart forecasts={data.forecasts} />
+          <ForecastChart
+            forecasts={data.forecasts}
+            deliveryDate={formattedDate}
+            decisionTime={decisionTime}
+          />
         </motion.div>
       )}
 
