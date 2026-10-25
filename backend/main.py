@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database import initialize_and_load
 from routes.forecasts import router as forecasts_router
+from routes.accuracy_data import router as accuracy_data_router
 from routes.accuracy import router as accuracy_router
 
 
@@ -24,6 +25,7 @@ def startup():
 
 
 app.include_router(forecasts_router)
+app.include_router(accuracy_data_router)
 app.include_router(accuracy_router)
 
 

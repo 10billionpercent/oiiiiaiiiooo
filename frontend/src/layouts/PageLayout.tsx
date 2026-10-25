@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
@@ -19,7 +20,7 @@ export default function PageLayout() {
 
   const [deliveryDate, setDeliveryDate] = useState("20260104");
   const [startDate, setStartDate] = useState("20260104");
-  const [endDate, setEndDate] = useState("20260104");
+  const [endDate, setEndDate] = useState("20260107");
   const [decisionTime, setDecisionTime] = useState("03:00");
 
   return (
@@ -27,26 +28,38 @@ export default function PageLayout() {
       <Navbar />
 
       <main className="page-content">
-        <section
-          className={`demo-controls ${
-            isAccuracyPage ? "demo-controls-accuracy" : ""
-          }`}
-        >
+        <section className="demo-controls">
           <div className="demo-controls-info">
             <h2 className="demo-controls-title">
               Demo Controls
             </h2>
 
-            <p className="demo-controls-description">
-              {isAccuracyPage
-                ? "Select the date range and decision time used for the accuracy analysis."
-                : "Select the delivery date and decision time used for the forecast data."}
-            </p>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={isAccuracyPage ? "accuracy-description" : "forecast-description"}
+                className="demo-controls-description"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isAccuracyPage
+                  ? "Select the date range and decision time used for the accuracy analysis."
+                  : "Select the delivery date and decision time used for the forecast data."}
+              </motion.p>
+            </AnimatePresence>
           </div>
 
-          {isAccuracyPage ? (
-            <div className="demo-controls-accuracy-pickers">
-              <div className="demo-controls-date-pickers">
+          <AnimatePresence mode="wait">
+            {isAccuracyPage ? (
+              <motion.div
+                key="accuracy-pickers"
+                className="demo-controls-pickers"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
+              >
                 <div className="demo-control-picker">
                   <span className="demo-control-label">
                     Start date
@@ -68,54 +81,74 @@ export default function PageLayout() {
                     onChange={setEndDate}
                   />
                 </div>
-              </div>
 
-              <div className="demo-control-picker">
-                <span className="demo-control-label">
-                  Decision time (UTC)
-                </span>
+                <div className="demo-control-picker">
+                  <span className="demo-control-label">
+                    Decision time (UTC)
+                  </span>
 
-                <TimePicker
-                  value={decisionTime}
-                  onChange={setDecisionTime}
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="demo-controls-pickers">
-              <div className="demo-control-picker">
-                <span className="demo-control-label">
-                  Delivery date
-                </span>
+                  <TimePicker
+                    value={decisionTime}
+                    onChange={setDecisionTime}
+                  />
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="forecast-pickers"
+                className="demo-controls-pickers"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="demo-control-picker">
+                  <span className="demo-control-label">
+                    Delivery date
+                  </span>
 
-                <DatePicker
-                  value={deliveryDate}
-                  onChange={setDeliveryDate}
-                />
-              </div>
+                  <DatePicker
+                    value={deliveryDate}
+                    onChange={setDeliveryDate}
+                  />
+                </div>
 
-              <div className="demo-control-picker">
-                <span className="demo-control-label">
-                  Decision time (UTC)
-                </span>
+                <div className="demo-control-picker">
+                  <span className="demo-control-label">
+                    Decision time (UTC)
+                  </span>
 
-                <TimePicker
-                  value={decisionTime}
-                  onChange={setDecisionTime}
-                />
-              </div>
-            </div>
-          )}
+                  <TimePicker
+                    value={decisionTime}
+                    onChange={setDecisionTime}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
-        <Outlet
-          context={{
-            deliveryDate,
-            startDate,
-            endDate,
-            decisionTime,
-          }}
-        />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{
+              duration: 0.25,
+              ease: "easeOut",
+            }}
+          >
+            <Outlet
+              context={{
+                deliveryDate,
+                startDate,
+                endDate,
+                decisionTime,
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
       </main>
     </>
   );

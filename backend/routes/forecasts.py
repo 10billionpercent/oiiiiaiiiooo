@@ -6,7 +6,6 @@ from pydantic import BaseModel
 from database import get_connection
 from utils.fetch_forecast import get_latest_forecast
 
-
 router = APIRouter(
     prefix="/api/forecasts",
     tags=["Forecasts"],

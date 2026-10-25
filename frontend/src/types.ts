@@ -34,6 +34,15 @@ export interface AccuracyRequest {
   decisionTime: string;
 }
 
+export interface AccuracyData {
+  startTime: string;
+  publishTime: string | null;
+  forecast: number;
+  actual: number;
+  error: number;
+  absoluteError: number;
+}
+
 export interface AccuracyMetrics {
   mae: number | null;
   rmse: number | null;
@@ -47,4 +56,12 @@ export interface AccuracyResponse {
   decisionTime: string;
   unit: string;
   metrics: AccuracyMetrics;
+}
+
+export interface RealDataResponse {
+  startDate: string;
+  endDate: string;
+  decisionTime: string;
+  unit: string;
+  data: AccuracyData[];
 }

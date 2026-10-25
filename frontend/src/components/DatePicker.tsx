@@ -119,7 +119,7 @@ export default function DatePicker({
           </div>
 
           <div className="dp-weekdays">
-            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <span key={day}>{day}</span>
             ))}
           </div>
